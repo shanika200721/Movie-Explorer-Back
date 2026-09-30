@@ -11,7 +11,10 @@ class AuthModule {}
 Module({
   imports: [UsersModule, PassportModule, JwtModule.registerAsync({
     inject: [ConfigService],
-    useFactory: (config) => ({ secret: config.getOrThrow('JWT_SECRET'), signOptions: { expiresIn: '1d' } }),
+    useFactory: (config) => ({
+      secret: config.getOrThrow('JWT_SECRET'),
+      signOptions: { expiresIn: config.get('JWT_EXPIRES_IN') || '15m' },
+    }),
   })],
   controllers: [AuthController],
   providers: [AuthService, JwtStrategy],

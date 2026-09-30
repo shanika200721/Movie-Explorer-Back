@@ -1,17 +1,13 @@
-const { BadRequestException, ConflictException, Injectable, UnauthorizedException } = require('@nestjs/common');
+const { ConflictException, Injectable, UnauthorizedException } = require('@nestjs/common');
 const { JwtService } = require('@nestjs/jwt');
 const bcrypt = require('bcryptjs');
 const { UsersService } = require('../users/users.service');
+const { AuthCredentialsDto } = require('./auth.dto');
 
 class AuthService {
   constructor(usersService, jwtService) { this.usersService = usersService; this.jwtService = jwtService; }
   validateCredentials(body) {
-    const username = body?.username?.trim();
-    const password = body?.password;
-    if (!username || username.length < 3 || !password || password.length < 6) {
-      throw new BadRequestException('Username must be at least 3 characters and password at least 6 characters');
-    }
-    return { username, password };
+    return new AuthCredentialsDto(body).validate();
   }
   async register(body) {
     const { username, password } = this.validateCredentials(body);
@@ -27,7 +23,10 @@ class AuthService {
     return this.createSession(user);
   }
   createSession(user) {
-    return { accessToken: this.jwtService.sign({ sub: user.id, username: user.username }), user: { id: user.id, username: user.username } };
+    return { accessToken: this.jwtService.sign({ sub: user.id, username: user.username }), user: this.publicUser(user) };
+  }
+  publicUser(user) {
+    return { id: user.id, username: user.username };
   }
 }
 Injectable()(AuthService);

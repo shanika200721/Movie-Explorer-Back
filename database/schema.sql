@@ -1,8 +1,2 @@
-CREATE TABLE IF NOT EXISTS users (
-  id INT NOT NULL AUTO_INCREMENT,
-  username VARCHAR(80) NOT NULL,
-  passwordHash VARCHAR(255) NOT NULL,
-  createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (id),
-  UNIQUE KEY users_username_unique (username)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+-- Apply additive migrations from database/migrations after inspecting the target schema.
+SOURCE database/migrations/001_create_users.sql;

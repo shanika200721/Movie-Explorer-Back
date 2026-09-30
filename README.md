@@ -25,7 +25,12 @@ The API runs at `http://localhost:4000` by default.
 - `POST /auth/login`
 - `GET /movies/trending`
 - `GET /movies/search?query=batman&page=1`
+- `GET /movies/discover?genre=28&year=2024&minRating=7&page=1`
 - `GET /movies/genres`
 - `GET /movies/:id`
 
 Movie routes require a bearer token from login.
+
+Movie title searches use TMDb search. Genre, release-year, and minimum-rating
+browsing uses TMDb discover, whose pagination represents the complete filtered
+result set rather than only the currently loaded page.

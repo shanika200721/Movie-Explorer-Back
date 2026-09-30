@@ -2,13 +2,14 @@ const { Module } = require('@nestjs/common');
 const { ConfigModule, ConfigService } = require('@nestjs/config');
 const { TypeOrmModule } = require('@nestjs/typeorm');
 const { AuthModule } = require('./auth/auth.module');
+const { HealthModule } = require('./health/health.module');
 const { MoviesModule } = require('./movies/movies.module');
 const { User } = require('./users/user.entity');
 const { UsersModule } = require('./users/users.module');
 
 class AppModule {}
 Module({ imports: [
-  ConfigModule.forRoot({ isGlobal: true }),
+  ConfigModule.forRoot({ isGlobal: true, envFilePath: ['.env.local', '.env'] }),
   TypeOrmModule.forRootAsync({ inject: [ConfigService], useFactory: (config) => ({
     type: 'mysql',
     host: config.getOrThrow('DB_HOST'),
@@ -17,9 +18,9 @@ Module({ imports: [
     password: config.getOrThrow('DB_PASSWORD'),
     database: config.getOrThrow('DB_DATABASE'),
     entities: [User],
-    synchronize: process.env.DB_SYNCHRONIZE === 'true',
+    synchronize: false,
   }) }),
-  AuthModule, UsersModule, MoviesModule,
+  AuthModule, UsersModule, MoviesModule, HealthModule,
 ] })(AppModule);
 
 module.exports = { AppModule };

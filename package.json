@@ -5,7 +5,11 @@
   "scripts": {
     "start": "node src/main.js",
     "start:dev": "nodemon src/main.js",
-    "check": "node scripts/check.js"
+    "build": "node scripts/check.js",
+    "check": "node scripts/check.js",
+    "test:auth": "node --test test/auth.service.test.js",
+    "test:movies": "node --test test/movies*.test.js",
+    "test": "node --test test/*.test.js"
   },
   "dependencies": {
     "@nestjs/common": "^12.1.1",
