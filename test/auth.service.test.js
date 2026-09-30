@@ -34,9 +34,24 @@ test('login rejects invalid credentials', async () => {
   await assert.rejects(() => service.login({ username: 'viewer', password: 'wrongpass' }), UnauthorizedException);
 });
 
+test('login returns a session for valid credentials', async () => {
+  const service = makeService();
+  await service.register({ username: 'viewer', password: 'strongpass' });
+  const result = await service.login({ username: 'viewer', password: 'strongpass' });
+  assert.equal(result.user.username, 'viewer');
+  assert.equal(result.accessToken, 'signed:1:viewer');
+});
+
+test('registration rejects duplicate usernames', async () => {
+  const service = makeService();
+  await service.register({ username: 'viewer', password: 'strongpass' });
+  await assert.rejects(() => service.register({ username: 'viewer', password: 'anotherpass' }), ConflictException);
+});
+
 test('credentials are validated consistently', async () => {
   const service = makeService();
 
   await assert.rejects(() => service.register({ username: 'no spaces', password: 'strongpass' }), BadRequestException);
   await assert.rejects(() => service.login({ username: 'ok_user', password: 'short' }), BadRequestException);
+  await assert.rejects(() => service.register(null), BadRequestException);
 });

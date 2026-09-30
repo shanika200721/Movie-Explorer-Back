@@ -2,6 +2,7 @@ const { BadRequestException } = require('@nestjs/common');
 
 class AuthCredentialsDto {
   constructor(body = {}) {
+    if (!body || typeof body !== 'object') body = {};
     this.username = typeof body.username === 'string' ? body.username.trim() : '';
     this.password = typeof body.password === 'string' ? body.password : '';
   }
