@@ -1,0 +1,30 @@
+{
+  "name": "movie-explorer-back",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node src/main.js",
+    "start:dev": "nodemon src/main.js",
+    "check": "node scripts/check.js"
+  },
+  "dependencies": {
+    "@nestjs/common": "^12.1.1",
+    "@nestjs/config": "^12.0.1",
+    "@nestjs/core": "^12.1.1",
+    "@nestjs/jwt": "^12.0.2",
+    "@nestjs/passport": "^12.0.0",
+    "@nestjs/platform-express": "^12.1.1",
+    "@nestjs/typeorm": "^12.0.2",
+    "axios": "^1.7.2",
+    "bcryptjs": "^2.4.3",
+    "mysql2": "^3.10.2",
+    "passport": "^0.7.0",
+    "passport-jwt": "^4.0.1",
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.1",
+    "typeorm": "^0.3.20"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  }
+}
